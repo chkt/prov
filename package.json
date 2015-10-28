@@ -1,0 +1,40 @@
+{
+	"name": "prov",
+	"description" : "Simple Provider & Readymades",
+	"version": "0.1.0",
+	"license" : "MIT",
+
+	"author" : {
+		"name" : "Christoph Kettelhoit",
+		"email" : "ck@christoph-kettelhoit.de",
+		"url" : "christoph-kettelhoit.de"
+	},
+
+	"repository" : {
+		"type" : "git",
+		"url" : "https://github.com/chkt/prov"
+	},
+
+	"scripts" : {
+		"gulp" : "gulp",
+		"test" : "gulp test"
+	},
+
+	"files" : [
+		"source/Provider.js",
+		"source/ConfigProvider.js",
+		"dist/Provider.js",
+		"dist/ConfigProvider.js"
+	],
+
+	"devDependencies" : {
+		"del": "~2.0",
+		"babel" : "~5.8",
+		"jscs" : "~2.1",
+		"gulp" : "~3.9",
+		"gulp-jshint" : "~1.11",
+		"gulp-jscs" : "~2.0",
+		"gulp-mocha" : "~2.1",
+		"gulp-babel" : "~5.2"
+	}
+}
