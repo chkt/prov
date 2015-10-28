@@ -1,5 +1,4 @@
 import Provider from './Provider';
-import * as _observe from './BaseObservable';
 
 
 
