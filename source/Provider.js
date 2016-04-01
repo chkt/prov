@@ -1,32 +1,56 @@
+const _instances = new WeakMap();
+const _transform = new WeakMap();
 const _factory = new WeakMap();
-const _instance = new WeakMap();
+
+
+
+function _identityTrn(id) {
+	return id;
+}
 
 
 
 export default class Provider {
-	constructor(factory) {
-		if (typeof factory !== 'function') throw new TypeError();
+	constructor(factory, transform = _identityTrn) {
+		if (
+			typeof factory !== 'function' ||
+			typeof transform !== 'function'
+		) throw new TypeError();
 
+		_instances.set(this, {});
+		_transform.set(this, transform);
 		_factory.set(this, factory);
-		_instance.set(this, {});
 	}
 
 
 	get(id) {
-		if (
-			(typeof id !== 'string' || id === '') &&
-			typeof id !== 'symbol'
-		) throw new TypeError();
+		if ((typeof id !== 'string' || id === '') && typeof id !== 'symbol') throw new TypeError();
 
-		const ins = _instance.get(this);
+		const instances = _instances.get(this);
 
-		if (!(id in ins)) ins[id] = _factory.get(this).call(this, id);
+		id = _transform.get(this)(id, instances);
 
-		return ins[id];
+		if (!(id in instances)) instances[id] = _factory.get(this).call(this, id);
+
+		return instances[id];
 	}
 
+	set(id, ins) {
+		if (
+			(typeof id !== 'string' || id === '') && typeof id !== 'symbol' ||
+			typeof ins !== 'object' || ins === null
+		) throw new TypeError();
 
-	getUnique() {
-		return _factory.get(this)(Symbol());
+		_instances.get(this)[id] = ins;
+
+		return this;
+	}
+
+	reset(id) {
+		if ((typeof id !== 'string' || id === '') && typeof id !== 'symbol') throw new TypeError();
+
+		delete _instances.get(this)[id];
+
+		return this;
 	}
 }
