@@ -58,12 +58,4 @@ export default class ConfigProvider extends Provider {
 
 		return super.get(_symbol.get(cns));
 	}
-
-	getUnique() {
-		const sym = Symbol();
-
-		_reverse[sym] = () => {};
-
-		return _factory.call(this, sym);
-	}
 }
